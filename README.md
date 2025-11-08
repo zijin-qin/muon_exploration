@@ -5,7 +5,7 @@ Quarter 1 Project for 2025-2026 Capstone
 1. Clone the repository:
 ```bash
 git clone https://github.com/zijin-qin/muon_exploration.git
-cd muon_exploration/muon_exploration
+cd muon_exploration/muon_exploration/
 ```
 2. Install dependencies:
 ```bash
