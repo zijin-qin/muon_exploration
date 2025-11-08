@@ -6,7 +6,7 @@ import time
 from src.model import CIFAR10CNN
 from src.data import get_dataloaders
 from src.train import train_epoch, test
-from muon import SingleDeviceMuon
+from muon import SingleDeviceMuonWithAuxAdam
 
 def run_experiment(optimizer_name, batch_size, muon_lr=0.02, adamw_lr=3e-4, epochs=20):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -17,7 +17,6 @@ def run_experiment(optimizer_name, batch_size, muon_lr=0.02, adamw_lr=3e-4, epoc
     trainloader, testloader = get_dataloaders(batch_size)
 
     if 'muon' in optimizer_name:
-        from muon import SingleDeviceMuon
         muon_params, adamw_params = [], []
         for name, p in model.named_parameters():
             if p.ndim >= 2 and (('conv' in name and 'conv1' not in name and 'weight' in name)
@@ -25,23 +24,28 @@ def run_experiment(optimizer_name, batch_size, muon_lr=0.02, adamw_lr=3e-4, epoc
                 muon_params.append(p)
             else:
                 adamw_params.append(p)
-        muon_opt = SingleDeviceMuon(muon_params, lr=muon_lr, momentum=0.95)
+        muon_opt = SingleDeviceMuonWithAuxAdam(muon_params, lr=muon_lr, momentum=0.95)
         adamw_opt = torch.optim.AdamW(adamw_params, lr=adamw_lr, betas=(0.9, 0.95), weight_decay=0.01)
         optimizer = [muon_opt, adamw_opt]
     else:
-        optimizer = torch.optim.AdamW(model.parameters(), lr=adamw_lr,
-                                       betas=(0.9, 0.95), weight_decay=0.01)
+        optimizer = [torch.optim.AdamW(model.parameters(), lr=adamw_lr,
+                                       betas=(0.9, 0.95), weight_decay=0.01)]
 
-    # Scheduler only on first optimizer
-    first_opt = optimizer[0] if isinstance(optimizer, list) else optimizer
-    scheduler = optim.lr_scheduler.CosineAnnealingLR(first_opt, T_max=epochs)
+    scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer[0], T_max=epochs)
 
     results = {'train_loss': [], 'train_acc': [], 'test_loss': [], 'test_acc': [], 'epoch_time': []}
 
     for epoch in range(epochs):
         start_time = time.time()
 
-        train_loss, train_acc = train_epoch(model, trainloader, optimizer, criterion, device)
+        for opt in optimizer:
+            opt.zero_grad()
+
+        train_loss, train_acc = train_epoch(model, trainloader, optimizer[0], criterion, device)
+
+        for opt in optimizer:
+            opt.step()
+
         test_loss, test_acc = test(model, testloader, criterion, device)
         scheduler.step()
 
