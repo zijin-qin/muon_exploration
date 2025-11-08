@@ -4,14 +4,23 @@ import time
 def train_epoch(model, trainloader, optimizer, criterion, device):
     model.train()
     total_loss, correct, total = 0, 0, 0
+    
+    # Handle both single optimizer and list of optimizers
+    if not isinstance(optimizer, list):
+        optimizer = [optimizer]
 
     for inputs, labels in trainloader:
         inputs, labels = inputs.to(device), labels.to(device)
-        optimizer.zero_grad()
+        
+        for opt in optimizer:
+            opt.zero_grad()
+            
         outputs = model(inputs)
         loss = criterion(outputs, labels)
         loss.backward()
-        optimizer.step()
+        
+        for opt in optimizer:
+            opt.step()
 
         total_loss += loss.item()
         _, predicted = outputs.max(1)
