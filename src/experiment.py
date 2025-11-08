@@ -6,7 +6,7 @@ import time
 from src.model import CIFAR10CNN
 from src.data import get_dataloaders
 from src.train import train_epoch, test
-from muon import SingleDeviceMuonWithAuxAdam
+from muon import SingleDeviceMuon
 
 def run_experiment(optimizer_name, batch_size, muon_lr=0.02, adamw_lr=3e-4, epochs=20):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -24,7 +24,7 @@ def run_experiment(optimizer_name, batch_size, muon_lr=0.02, adamw_lr=3e-4, epoc
                 muon_params.append(p)
             else:
                 adamw_params.append(p)
-        muon_opt = SingleDeviceMuonWithAuxAdam(muon_params, lr=muon_lr, momentum=0.95)
+        muon_opt = SingleDeviceMuon(muon_params, lr=muon_lr, momentum=0.95)
         adamw_opt = torch.optim.AdamW(adamw_params, lr=adamw_lr, betas=(0.9, 0.95), weight_decay=0.01)
         optimizer = [muon_opt, adamw_opt]
     else:
