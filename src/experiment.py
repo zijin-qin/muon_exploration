@@ -85,7 +85,9 @@ def plot_results(adamw_results, muon_results):
         h = bar.get_height()
         axes[2].text(bar.get_x() + bar.get_width()/2, h, f'{h:.1f}s', ha='center', va='bottom')
     plt.tight_layout()
-    plt.show(block=True)
+    plt.savefig("muon_vs_adamw_cifar10.png", dpi=200)
+    plt.close()
+    print("Graph saved to muon_vs_adamw_cifar10.png")
 
 
 def print_summary(results, optimizer_name="Optimizer"):
