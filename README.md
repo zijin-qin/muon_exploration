@@ -25,4 +25,4 @@ python run.py
 ## Notes
 - Tested on a single GPU. Running on CPU is possible but slower.
 - Muon optimizer used is implemented by https://github.com/KellerJordan/Muon. 
-- Training epochs are set to 20 by default; you can change this in project1_train.py.
+- Training epochs are set to 20.
