@@ -71,16 +71,21 @@ def plot_results(adamw_results, muon_results):
     axes[0].plot(epochs, adamw_results['train_loss'], 'o-', label='AdamW', linewidth=2)
     axes[0].plot(epochs, muon_results['train_loss'], 's-', label='Muon', linewidth=2)
     axes[0].set_title('Training Loss')
+    axes[0].set_xlabel('Epoch')
+    axes[0].set_ylabel('Loss')
     axes[0].legend(); axes[0].grid(True, alpha=0.3)
 
     axes[1].plot(epochs, adamw_results['test_acc'], 'o-', label='AdamW', linewidth=2)
     axes[1].plot(epochs, muon_results['test_acc'], 's-', label='Muon', linewidth=2)
     axes[1].set_title('Test Accuracy')
+    axes[1].set_xlabel('Epoch')
+    axes[1].set_ylabel('Accuracy (%)')
     axes[1].legend(); axes[1].grid(True, alpha=0.3)
 
     times = [sum(adamw_results['epoch_time']), sum(muon_results['epoch_time'])]
     bars = axes[2].bar(['AdamW', 'Muon'], times, color=['#1f77b4', '#ff7f0e'])
     axes[2].set_title('Training Time')
+    axes[2].set_ylabel('Total Time (seconds)')
     for bar in bars:
         h = bar.get_height()
         axes[2].text(bar.get_x() + bar.get_width()/2, h, f'{h:.1f}s', ha='center', va='bottom')
