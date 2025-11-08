@@ -2,7 +2,7 @@ import json
 from src.experiment import run_experiment, plot_results, print_summary
 
 def main():
-    with open("config.json", "r") as f:
+    with open("config/config.json", "r") as f:
         cfg = json.load(f)
 
     adamw_results = run_experiment('adamw',
