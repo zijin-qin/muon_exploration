@@ -1,0 +1,8 @@
+{
+  "base_batch_size": 128,
+  "base_muon_lr": 0.02,
+  "base_adamw_lr": 0.0003,
+  "batch_sizes": [16, 32, 64, 128, 256, 512],
+  "epochs": 20,
+  "runs": 2
+}
