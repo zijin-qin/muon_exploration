@@ -22,8 +22,8 @@ Compares baseline AdamW optimizer with Muon optimizer using fixed batch size and
 python run.py
 ```
 **Outputs:**
-Training/test metrics printed to console
-muon_vs_adamw_cifar10.png - Performance comparison plots
+- Training/test metrics printed to console
+- `muon_vs_adamw_cifar10.png` - Performance comparison plots
 
 ### Experiment 2: Muon Batch Size Analysis
 Investigates how Muon's learning rate should scale with batch size, comparing:
