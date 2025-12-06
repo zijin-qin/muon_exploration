@@ -14,7 +14,7 @@ pip install -r requirements.txt
 
 ## Experiments
 
-### Experiment 1: AdamW vs Muon Comparison
+### Experiment 1: Muon vs. AdamW Comparison
 Compares baseline AdamW optimizer with Muon optimizer using fixed batch size and learning rates.
 
 **Run:**
