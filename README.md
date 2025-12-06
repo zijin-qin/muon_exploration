@@ -37,10 +37,11 @@ Run:
 ```bash
 python run_scaling.py
 ```
+
 Outputs:
-results/scaling_results.json - Raw training metrics
-`results/muon_scaling_comparison.png` - Loss/accuracy curves for all batch sizes
-`results/muon_runtime_analysis.png` - Runtime analysis plots
+- `results/scaling_results.json` - Raw training metrics
+- `results/muon_scaling_comparison.png` - Loss/accuracy curves for all batch sizes
+- `results/muon_runtime_analysis.png` - Runtime analysis plots
 
 Expected runtime: 3-4 hours on a single GPU
 
