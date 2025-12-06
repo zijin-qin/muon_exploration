@@ -25,7 +25,7 @@ Outputs:
 Training/test metrics printed to console
 muon_vs_adamw_cifar10.png - Performance comparison plots
 
-### Experiment 2: Learning Rate Scaling Study
+### Experiment 2: Muon Batch Size Analysis
 Investigates how Muon's learning rate should scale with batch size, comparing:
 
 Linear scaling: LR ∝ batch_size
